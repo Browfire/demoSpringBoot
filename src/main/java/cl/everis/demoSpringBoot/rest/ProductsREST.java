@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.everis.demoSpringBoot.dao.ProductsDAO;
 import cl.everis.demoSpringBoot.entity.Product;
+import cl.everis.demoSpringBoot.service.Services;
 
 /**
  * Clase encargada de contener los métodos necesarios para
@@ -31,6 +34,10 @@ public class ProductsREST {
 	/* Objeto heredado del repositorio JPA con todas sus funciones */
 	@Autowired
 	private ProductsDAO productDAO;
+	
+	/* Objeto que permite usar los métodos contenidos en Services.java */
+	@Autowired
+	private Services service;
 	
 	/* Método que realiza la función de obtener datos de la url localhost:8080/products */
 	@GetMapping		//  /products (GET)
@@ -76,5 +83,33 @@ public class ProductsREST {
 		}else {
 			return ResponseEntity.notFound().build();
 		}
+	}
+	
+	/**
+	 * Métodos para sumar, restar, multiplicar y dividir 2 números
+	 */
+	
+	/* Método encargado de sumar dos números */
+	@RequestMapping(value = "/sumar")
+	public ResponseEntity<Double> sumar(@RequestParam Double num1, @RequestParam Double num2){
+		return new ResponseEntity<Double>(service.sumar(num1, num2), HttpStatus.OK );
+	}
+	
+	/* Método encargado de restar dos números */
+	@GetMapping(value = "/restar")
+	public ResponseEntity<Double> restar(@RequestParam Double num1, @RequestParam Double num2){
+		return new ResponseEntity<Double>(service.restar(num1, num2), HttpStatus.OK );
+	}
+	
+	/* Método encargado de multiplicar dos números */
+	@GetMapping(value = "/multiplicar")
+	public ResponseEntity<Double> multiplicar(@RequestParam Double num1, @RequestParam Double num2){
+		return new ResponseEntity<Double>(service.multiplicar(num1, num2), HttpStatus.OK );
+	}
+	
+	/* Método encargado de dividir dos números */
+	@GetMapping(value = "/dividir")
+	public ResponseEntity<Double> dividir(@RequestParam Double num1, @RequestParam Double num2){
+		return new ResponseEntity<Double>(service.dividir(num1, num2), HttpStatus.OK );
 	}
 }
