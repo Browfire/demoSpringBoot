@@ -21,10 +21,10 @@ import cl.everis.demoSpringBoot.entity.Product;
 import cl.everis.demoSpringBoot.service.Services;
 
 /**
- * Clase encargada de contener los métodos necesarios para
- * obtener, crear, actualizar y borrar datos de la base de datos. 
+ * Clase encargada de contener los métodos necesarios para.
+ * obtener, crear, actualizar y borrar datos de la base de datos
  * 
- * @author playe
+ * @author Browfire
  *
  */
 @RestController
@@ -84,10 +84,6 @@ public class ProductsREST {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
-	/**
-	 * Métodos para sumar, restar, multiplicar y dividir 2 números
-	 */
 	
 	/* Método encargado de sumar dos números */
 	@GetMapping(value = "/sumar")
