@@ -6,7 +6,7 @@ import cl.everis.demoSpringBoot.entity.Product;
 
 /**
  * Interfaz encargada de conectar la clase ProductsREST.java 
- * con los métodos de JPARepository
+ * con los métodos de JPARepository.
  * 
  * @author playe
  *

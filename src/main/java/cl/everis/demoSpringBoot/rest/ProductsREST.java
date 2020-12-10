@@ -22,7 +22,7 @@ import cl.everis.demoSpringBoot.service.Services;
 
 /**
  * Clase encargada de contener los métodos necesarios para
- * obtener, crear, actualizar y borrar datos de la base de datos 
+ * obtener, crear, actualizar y borrar datos de la base de datos. 
  * 
  * @author playe
  *
@@ -47,7 +47,7 @@ public class ProductsREST {
 	}
 	
 	/* Método que realiza la función de obtener datos de la url localhost:8080/products/{id} */
-	@RequestMapping(value = "{productId}") //  /products/{productId} (GET)
+	@GetMapping(value = "{productId}") //  /products/{productId} (GET)
 	public ResponseEntity<Product> getProductById(@PathVariable("productId") Long productId){
 		Optional<Product> optionalProduct = productDAO.findById(productId);
 		if(optionalProduct.isPresent()) {
@@ -66,7 +66,7 @@ public class ProductsREST {
 	
 	/* Método que realiza la función de borrar datos de la url localhost:8080/products/ */
 	@DeleteMapping(value = "{productId}")	//  /products/{productId} (DELETE)
-	public ResponseEntity<Void> deleteProduct(@PathVariable("productId") Long productId){
+	public ResponseEntity<Void> deleteProductById(@PathVariable("productId") Long productId){
 		productDAO.deleteById(productId);
 		return ResponseEntity.ok(null);
 	}
@@ -90,7 +90,7 @@ public class ProductsREST {
 	 */
 	
 	/* Método encargado de sumar dos números */
-	@RequestMapping(value = "/sumar")
+	@GetMapping(value = "/sumar")
 	public ResponseEntity<Double> sumar(@RequestParam Double num1, @RequestParam Double num2){
 		return new ResponseEntity<Double>(service.sumar(num1, num2), HttpStatus.OK );
 	}
@@ -111,5 +111,11 @@ public class ProductsREST {
 	@GetMapping(value = "/dividir")
 	public ResponseEntity<Double> dividir(@RequestParam Double num1, @RequestParam Double num2){
 		return new ResponseEntity<Double>(service.dividir(num1, num2), HttpStatus.OK );
+	}
+	
+	/* Método encargado de ordenar de mayor a menor un arreglo de números */
+	@GetMapping(value = "/ordenar")
+	public ResponseEntity<Double[]> ordenar(@RequestParam Double[] nums){
+		return new ResponseEntity<Double[]>(service.ordenarDesc(nums), HttpStatus.OK );
 	}
 }

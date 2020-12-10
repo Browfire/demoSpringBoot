@@ -7,14 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 /**
  * Clase encargada de contener la información de los productos
  * funcionando como una tabla llamada "products" contenida en 
- * una base de datos H2 con ruta jdbc:h2:./database
+ * una base de datos H2 (con ruta jdbc:h2:./database).
  * 
  * @author playe
  *
  */
+@Data
 @Entity
 @Table(name = "products")
 public class Product {
@@ -29,18 +32,5 @@ public class Product {
 	@Column(name = "name", nullable = false, length = 30)
 	private String name;
 	
-	/** Getters & Setters **/
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 
 }

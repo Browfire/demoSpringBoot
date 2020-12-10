@@ -2,6 +2,12 @@ package cl.everis.demoSpringBoot.service;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * Clase contenedora de los servicios a utilizar por el controlador.
+ * 
+ * @author playe
+ *
+ */
 @Service
 public class Services {
 	
@@ -58,4 +64,34 @@ public class Services {
 			return true;
 		}
 	}
+	
+	/* Método que ordena un arreglo de números, de mayor a menor */
+	public Double[] ordenarDesc(Double[] nums) {
+		if(validarArr(nums)) {
+			Double tmp = 0D;
+		    for (Integer x = 0; x < nums.length; x++) {
+		        for (Integer i = 0; i < nums.length-x-1; i++) {
+		            if (nums[i] < nums[i+1]){
+		                tmp = nums[i+1];
+		                nums[i+1] = nums[i];
+		                nums[i] = tmp;
+		            }
+		        }
+		    }
+		    return nums;
+		}else {
+			throw new RuntimeException("Debe ingresar números válidos");
+		}
+	}
+	
+	/* Método que se encarga de validar que los numeros sean distintos de null */
+	public Boolean validarArr(Double[] nums) {
+		for (Object o : nums) {
+			if(o == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+		
 }
