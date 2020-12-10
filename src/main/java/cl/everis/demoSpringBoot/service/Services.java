@@ -1,6 +1,13 @@
 package cl.everis.demoSpringBoot.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import cl.everis.demoSpringBoot.dao.ProductsDAO;
+import cl.everis.demoSpringBoot.entity.Product;
 
 
 /**
@@ -11,6 +18,37 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class Services {
+	
+	/* Objeto heredado del repositorio JPA con todas sus funciones */
+	@Autowired
+	private ProductsDAO productDAO;
+	
+	/* Método que guarda una entidad en la base de datos */
+	public Product setOneProduct(Product product) {
+		return productDAO.save(product);
+	}
+	
+	/* Método que trae todas las entidades de la base de datos */
+	public List<Product> getAllProducts() {
+		return productDAO.findAll();
+	}
+	
+	/* Método que trae una entidad de la base de datos, según un id */
+	public Optional<Product> getProductById(Long productId) {
+		return productDAO.findById(productId);
+	}
+	
+	/* Método que elimina una entidad de la base de datos, según un id */
+	public void deleteProductById(Long productId) {
+		productDAO.deleteById(productId);
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	/* Método que se encarga de sumar dos números de tipo Double */
 	public Double sumar(Double num1, Double num2) {

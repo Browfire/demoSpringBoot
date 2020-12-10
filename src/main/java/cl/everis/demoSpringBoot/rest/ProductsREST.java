@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cl.everis.demoSpringBoot.dao.ProductsDAO;
 import cl.everis.demoSpringBoot.entity.Product;
 import cl.everis.demoSpringBoot.service.Services;
 
@@ -31,10 +30,6 @@ import cl.everis.demoSpringBoot.service.Services;
 @RequestMapping("products")
 public class ProductsREST {
 	
-	/* Objeto heredado del repositorio JPA con todas sus funciones */
-	@Autowired
-	private ProductsDAO productDAO;
-	
 	/* Objeto que permite usar los métodos contenidos en Services.java */
 	@Autowired
 	private Services service;
@@ -42,48 +37,90 @@ public class ProductsREST {
 	/* Método que realiza la función de obtener datos de la url localhost:8080/products */
 	@GetMapping		//  /products (GET)
 	public ResponseEntity<List<Product>> getProduct(){
-		List<Product> products = productDAO.findAll();
-		return ResponseEntity.ok(products);
+		
+		try {
+			List<Product> products = service.getAllProducts();
+			return ResponseEntity.ok(products);
+		}catch (Exception e){
+			throw new RuntimeException(e.getMessage());
+		}
+		
 	}
 	
 	/* Método que realiza la función de obtener datos de la url localhost:8080/products/{id} */
 	@GetMapping(value = "{productId}") //  /products/{productId} (GET)
 	public ResponseEntity<Product> getProductById(@PathVariable("productId") Long productId){
-		Optional<Product> optionalProduct = productDAO.findById(productId);
-		if(optionalProduct.isPresent()) {
-			return ResponseEntity.ok(optionalProduct.get());
-		}else {
-			return ResponseEntity.noContent().build();
+		
+		try {
+			Optional<Product> optionalProduct = service.getProductById(productId);
+			if(optionalProduct.isPresent()) {
+				return ResponseEntity.ok(optionalProduct.get());
+			}else {
+				return ResponseEntity.noContent().build();
+			}		
+		}catch (Exception e){
+			throw new RuntimeException(e.getMessage());
 		}
+		
 	}
 	
 	/* Método que realiza la función de crear datos en la url localhost:8080/products */
 	@PostMapping	//  /products (POST)
 	public ResponseEntity<Product> createProduct(@RequestBody Product product){
-		Product newProduct = productDAO.save(product);
-		return ResponseEntity.ok(newProduct);
+	
+		try {
+			Product newProduct = service.setOneProduct(product);
+			return ResponseEntity.ok(newProduct);
+		}catch(Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		
 	}
 	
 	/* Método que realiza la función de borrar datos de la url localhost:8080/products/ */
 	@DeleteMapping(value = "{productId}")	//  /products/{productId} (DELETE)
 	public ResponseEntity<Void> deleteProductById(@PathVariable("productId") Long productId){
-		productDAO.deleteById(productId);
-		return ResponseEntity.ok(null);
+	
+		try {
+			service.deleteProductById(productId);
+			return ResponseEntity.ok(null);
+		}catch(Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		
 	}
 	
 	/* Método que realiza la función de actualizar datos de la url localhost:8080/products */
 	@PutMapping		//  /products (PUT)
 	public ResponseEntity<Product> updateProduct(@RequestBody Product product){
-		Optional<Product> optionalProduct = productDAO.findById(product.getId());
-		if(optionalProduct.isPresent()) {
-			Product updateProduct = optionalProduct.get();
-			updateProduct.setName(product.getName());
-			productDAO.save(updateProduct);
-			return ResponseEntity.ok(updateProduct);
-		}else {
-			return ResponseEntity.notFound().build();
+		
+		try {
+			Optional<Product> optionalProduct = service.getProductById(product.getId());
+			if(optionalProduct.isPresent()) {
+				Product updateProduct = optionalProduct.get();
+				updateProduct.setName(product.getName());
+				updateProduct.setPrice(product.getPrice());
+				updateProduct.setBrand(product.getBrand());
+				updateProduct.setProvider(product.getProvider());
+				updateProduct.setDescription(product.getDescription());
+				updateProduct.setWeight(product.getWeight());
+				updateProduct.setColor(product.getColor());
+				updateProduct.setElaborationDate(product.getElaborationDate());
+				updateProduct.setExpirationDate(product.getExpirationDate());
+				updateProduct = service.setOneProduct(updateProduct);
+				return ResponseEntity.ok(updateProduct);
+			}else {
+				return ResponseEntity.notFound().build();
+			}		
+		}catch (Exception e){
+			throw new RuntimeException(e.getMessage());
 		}
 	}
+	
+	/**
+	 * Funcionalidades de prueba
+	 * 
+	 */
 	
 	/* Método encargado de sumar dos números */
 	@GetMapping(value = "/sumar")
