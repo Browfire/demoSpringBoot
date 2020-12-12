@@ -1,5 +1,6 @@
 package cl.everis.demoSpringBoot.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,12 +44,46 @@ public class Services {
 		productDAO.deleteById(productId);
 	}
 	
+	/**
+	 *  Consultas a la base de datos mediante JPA Keywords.
+	 *   
+	 */
+	
+	/* Método que trae productos entre un precio mínimo y un precio máximo */
+	public List<Product> getByPriceBetween(Double priceMin, Double priceMax) {
+		return productDAO.findByPriceBetween(priceMin, priceMax);
+	}
+	
+	/* Método que trae productos después de cierta fecha de elaboración */
+	public List<Product> getByElaborationDateAfter(Date elaborationDate) {
+		return productDAO.findByElaborationDateAfter(elaborationDate);
+	}
+	
+	/* Método que trae productos antes de cierta vecha de expiración */
+	public List<Product> getByExpirationDateBefore(Date expirationDate) {
+		return productDAO.findByExpirationDateBefore(expirationDate);
+	}
+	
+	/* Método que busca productos de una cierta marca o proveedor */
+	public List<Product> getByBrandOrProvider(String brand, String provider) {
+		return productDAO.findByBrandOrProvider(brand, provider);
+	}
+	
+	/* Método que busca productos que su nombre comience por cierto string */
+	public List<Product> getByNameStartingWith(String start) {
+		return productDAO.findByNameStartingWith(start);
+	}
+	
+	/* Método que busca productos que su descripción contenga cierto string */
+	public List<Product> getByDescriptionContaining(String description) {
+		return productDAO.findByDescriptionContaining(description);
+	}
 	
 	
-	
-	
-	
-	
+	/**
+	 * Funcionalidades de prueba
+	 * 
+	 */
 	
 	/* Método que se encarga de sumar dos números de tipo Double */
 	public Double sumar(Double num1, Double num2) {
